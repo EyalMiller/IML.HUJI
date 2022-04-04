@@ -105,8 +105,8 @@ class UnivariateGaussian:
         sum_helper = 0
         for sample in x:
             sum_helper += (sample - mu) * (sample - mu)
-        log_likelihood = np.log(1 / np.power(2 * np.pi * sigma * sigma, len(x) / 2)) * np.exp(
-            -1 / (2 * sigma * sigma) * sum_helper)
+        log_likelihood = np.log(1 / np.power(2 * np.pi * sigma * sigma, len(x) / 2)) -1 / (
+                    2 * sigma * sigma) * sum_helper
         return log_likelihood
 
 
