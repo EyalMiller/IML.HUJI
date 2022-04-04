@@ -3,14 +3,14 @@ import numpy as np
 import pandas as pd
 
 
-def split_train_test(x: pd.DataFrame, y: pd.Series, train_proportion: float = .25) \
+def split_train_test(X: pd.DataFrame, y: pd.Series, train_proportion: float = .25) \
         -> Tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.Series]:
     """
-    Split given sample to a training- and testing sample
+    Randomly split given sample to a training- and testing sample
 
     Parameters
     ----------
-    x : DataFrame of shape (n_samples, n_features)
+    X : DataFrame of shape (n_samples, n_features)
         Data frame of samples and feature values.
 
     y : Series of shape (n_samples, )
@@ -33,14 +33,7 @@ def split_train_test(x: pd.DataFrame, y: pd.Series, train_proportion: float = .2
         Responses of test samples
 
     """
-    indices = np.linspace(0, x.shape[0] - 1, x.shape[0]).astype(int)
-    chosen_train_indices = np.random.choice(indices, np.ceil(train_proportion * x.shape[0]).astype(int))
-    chosen_test_indices = np.delete(indices, chosen_train_indices)
-    x_train = x.iloc[chosen_train_indices]
-    x_test = x.iloc[chosen_test_indices]
-    y_train = y.iloc[chosen_train_indices]
-    y_test = y.iloc[chosen_test_indices]
-    return x_train, y_train, x_test, y_test
+    raise NotImplementedError()
 
 
 def confusion_matrix(a: np.ndarray, b: np.ndarray) -> np.ndarray:
@@ -62,4 +55,3 @@ def confusion_matrix(a: np.ndarray, b: np.ndarray) -> np.ndarray:
         while value `j` vas found in vector `b`
     """
     raise NotImplementedError()
-
