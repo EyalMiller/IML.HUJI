@@ -106,6 +106,7 @@ if __name__ == '__main__':
     np.random.seed(0)
 
     # Question 1 - Load and preprocessing of housing prices dataset
+    # I transferred the csv to the same directory because pycharm couldn't recognize other directories...
     x, y = load_data(r'house_prices.csv')
     y = y.squeeze()
 

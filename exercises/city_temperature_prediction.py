@@ -20,7 +20,6 @@ def load_data(filename: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     Design matrix and response vector (Temp)
     """
     data = pd.read_csv(filename, parse_dates=['Date'])
-    data = data.fillna(0)
     data['DayOfYear'] = data['Date'].dt.dayofyear
     data = data.drop(data[data['Temp'] <= -40].index)
     y = data.pop('Temp')
@@ -30,7 +29,8 @@ def load_data(filename: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
 if __name__ == '__main__':
     np.random.seed(0)
     # Question 1 - Load and preprocessing of city temperature dataset
-    x, y = load_data('City_Temperature.csv')
+    # I also transferred the csv to the same directory because pycharm couldn't recognize other directories...
+    x, y = load_data(r'City_Temperature.csv')
 
     # Question 2 - Exploring data for specific country
     x_israel = x[x['Country'] == "Israel"]
