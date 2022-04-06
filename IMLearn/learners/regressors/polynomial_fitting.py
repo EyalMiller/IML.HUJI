@@ -3,6 +3,7 @@ from typing import NoReturn
 from IMLearn.base.base_estimator import BaseEstimator
 from IMLearn.learners.regressors.linear_regression import LinearRegression
 import numpy as np
+from IMLearn.metrics.loss_functions import mean_square_error
 
 
 class PolynomialFitting(BaseEstimator):
@@ -20,7 +21,7 @@ class PolynomialFitting(BaseEstimator):
         """
         super().__init__()
         self.estimator = LinearRegression(False)
-        self.k = k
+        self.k = k + 1
 
     def _fit(self, x: np.ndarray, y: np.ndarray) -> NoReturn:
         """
@@ -70,7 +71,7 @@ class PolynomialFitting(BaseEstimator):
         loss : float
             Performance under MSE loss function
         """
-        return self.estimator.loss(self.__transform(x), y)
+        return mean_square_error(y, self.estimator.predict(self.__transform(x)))
 
 
     def __transform(self, x: np.ndarray) -> np.ndarray:
@@ -86,4 +87,5 @@ class PolynomialFitting(BaseEstimator):
         transformed: ndarray of shape (n_samples, k+1)
             Vandermonde matrix of given samples up to degree k
         """
-        return np.vander(x, self.k + 1, increasing=True)
+        van = np.vander(x, N=self.k, increasing=True)
+        return van

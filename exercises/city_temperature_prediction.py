@@ -19,22 +19,12 @@ def load_data(filename: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     -------
     Design matrix and response vector (Temp)
     """
-    x = pd.read_csv(filename, parse_dates=['Date'])
-    y = x.pop('Temp')
-
-    # There is no big city with temperature of -70... Especially not Capetown or Amman
-    x = x.drop(x[y <= -70].index)
-    y = y.drop(y[y <= -70].index)
-
-    # I looked at the data and there is only one city from every country, so there is no point
-    # to keep the cities too.
-    x = x.drop(['City'], axis=1)
-
-    # Create the DayOfYear column
-    day_of_year = x['Date'].apply(lambda d: d.strftime('%j')).astype(int)
-    x = pd.concat([x, day_of_year], axis=1)
-    x.columns.values[5] = "DayOfYear"
-    return x, y
+    data = pd.read_csv(filename, parse_dates=['Date'])
+    data = data.fillna(0)
+    data['DayOfYear'] = data['Date'].dt.dayofyear
+    data = data.drop(data[data['Temp'] <= -40].index)
+    y = data.pop('Temp')
+    return data, y
 
 
 if __name__ == '__main__':
@@ -84,10 +74,11 @@ if __name__ == '__main__':
     plt.title("Average temperature over the year in various countries")
     plt.show()
 
+
     # Question 4 - Fitting model for different values of `k`
     x_israel = x_israel['DayOfYear']
-    x_israel_train, y_israel_train, x_israel_test, y_israel_test = split_train_test(x_israel, y_israel, 0.75)
     losses = np.zeros(10)
+    x_israel_train, y_israel_train, x_israel_test, y_israel_test = split_train_test(x_israel, y_israel, 0.75)
     k_values = np.linspace(1, 10, 10).astype(int)
     for k in k_values:
         poly_model = PolynomialFitting(k)

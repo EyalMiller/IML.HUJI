@@ -44,7 +44,7 @@ class LinearRegression(BaseEstimator):
         if self.include_intercept_:
             ones = np.full(x.shape[0], 1)
             x = np.insert(x, 0, ones, 1)
-        self.coefficients = np.matmul(pinv(x), y)
+        self.coefficients = np.dot(pinv(x), y)
 
 
     def _predict(self, x: np.ndarray) -> np.ndarray:
@@ -64,7 +64,7 @@ class LinearRegression(BaseEstimator):
         if self.include_intercept_:
             ones = np.full(x.shape[0], 1)
             x = np.insert(x, 0, ones, 1)
-        return np.matmul(x, self.coefficients)
+        return np.dot(x, self.coefficients)
 
     def _loss(self, x: np.ndarray, y: np.ndarray) -> float:
         """
@@ -83,4 +83,4 @@ class LinearRegression(BaseEstimator):
         loss : float
             Performance under MSE loss function
         """
-        return mean_square_error(y, self.predict(x))
+        return mean_square_error(y, self._predict(x))
