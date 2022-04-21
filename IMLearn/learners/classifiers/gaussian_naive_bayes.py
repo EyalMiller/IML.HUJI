@@ -54,7 +54,7 @@ class GaussianNaiveBayes(BaseEstimator):
             for sample in x[indices == 1]:
                 for j in range(x.shape[1]):
                     self.vars_[i][j] += (sample[j] - self.mu_[i][j]) * (sample[j] - self.mu_[i][j])
-            self.vars_[i] /= np.sum(indices)
+            self.vars_[i] /= (np.sum(indices) - 1)
 
 
     def _predict(self, x: np.ndarray) -> np.ndarray:

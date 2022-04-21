@@ -60,7 +60,7 @@ class LDA(BaseEstimator):
         for i in range(x.shape[0]):
             mu = self.mu_[np.where(self.classes_ == y[i])]
             self.cov_ += np.dot(np.transpose(x[i] - mu), x[i] - mu)
-        self.cov_ /= x.shape[0]
+        self.cov_ /= (x.shape[0] - num_of_classes)
         self._cov_inv = inv(self.cov_)
 
     def _predict(self, x: np.ndarray) -> np.ndarray:
