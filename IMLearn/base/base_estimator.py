@@ -18,7 +18,7 @@ class BaseEstimator(ABC):
     Base class of supervised estimators (classifiers and regressors)
     """
 
-    def __init__(self) -> BaseEstimator:
+    def __init__(self):
         """
         Initialize a supervised estimator instance
 

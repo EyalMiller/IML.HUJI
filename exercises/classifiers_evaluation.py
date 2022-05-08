@@ -56,7 +56,7 @@ def run_perceptron():
         Perceptron(callback=my_callback).fit(x, y)
 
         # Plot figure
-        plt.plot(losses, '-o', alpha=0.5)
+        plt.plot(np.linspace(1, len(losses), len(losses)), losses, '-o', alpha=0.5)
         plt.title("Train Loss as a function of the number of changes - " + n + " Module:", fontdict={'fontsize': 10})
         plt.xlabel("# of changes")
         plt.ylabel("misclassification loss")
@@ -140,5 +140,5 @@ def compare_gaussian_classifiers():
 
 if __name__ == '__main__':
     np.random.seed(0)
-    # run_perceptron()
+    run_perceptron()
     compare_gaussian_classifiers()

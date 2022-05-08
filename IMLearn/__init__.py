@@ -1,7 +1,6 @@
-from .base import *
+from IMLearn.base import *
 
 __all__ = ["BaseEstimator",
-           "BaseDimReducer",
            "learners",
            "metalearners",
            "metrics"]

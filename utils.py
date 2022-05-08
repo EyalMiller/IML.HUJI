@@ -28,7 +28,7 @@ class AnimationButtons():
                             "mode":"immediate",
                             "fromcurrent": True, "transition": {"duration": transition_duration, "easing": "linear"}}])
     
-    def pause():
+    def pause(self):
         return dict(label="Pause", method="animate", args=
                     [[None], {"frame": {"duration": 0, "redraw": False}, "mode": "immediate", "transition": {"duration": 0}}])
     
@@ -58,6 +58,7 @@ custom = [[0.0, "rgb(165,0,38)"],
 
 class_symbols = np.array(["circle", "x", "diamond"])
 class_colors = lambda n: [custom[i] for i in np.linspace(0, len(custom)-1, n).astype(int)]
+
 
 def decision_surface(predict, xrange, yrange, density=120, dotted=False, colorscale=custom, showscale=True):
     xrange, yrange = np.linspace(*xrange, density), np.linspace(*yrange, density)
