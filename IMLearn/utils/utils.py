@@ -34,7 +34,7 @@ def split_train_test(x: pd.DataFrame, y: pd.Series, train_proportion: float = .2
 
     """
     indices = np.linspace(0, x.shape[0] - 1, x.shape[0]).astype(int)
-    chosen_train_indices = np.random.choice(indices, np.ceil(train_proportion * x.shape[0]).astype(int))
+    chosen_train_indices = np.random.choice(indices, np.ceil(train_proportion * x.shape[0]).astype(int), replace=False)
     chosen_test_indices = np.delete(indices, chosen_train_indices)
     x_train = x.iloc[chosen_train_indices]
     x_test = x.iloc[chosen_test_indices]

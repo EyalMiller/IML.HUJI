@@ -48,7 +48,7 @@ class DecisionStump(BaseEstimator):
         for i in range(x.shape[1]):
             for sign in [-1, 1]:
                 thr, thr_err = self._find_threshold(x[:, i], y, sign)
-                if thr_err <= min_thr_err:
+                if thr_err < min_thr_err:
                     self.sign_ = sign
                     min_thr_err = thr_err
                     opt_thr = thr
@@ -113,12 +113,10 @@ class DecisionStump(BaseEstimator):
         sorted_values = np.append(sorted_values, sorted_values[-1] + 1)
         thr = 0
         thr_err = 1
-        count = 0
         for value in sorted_values:
-            count += 1
             y_th = np.where(values >= value, sign, -1 * sign)
             err = weighted_loss(labels, y_th)
-            if err <= thr_err:
+            if err < thr_err:
                 thr = value
                 thr_err = err
         return thr, thr_err

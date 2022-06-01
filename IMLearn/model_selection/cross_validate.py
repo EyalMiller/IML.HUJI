@@ -1,12 +1,11 @@
 from __future__ import annotations
-from copy import deepcopy
 from typing import Tuple, Callable
 import numpy as np
 from IMLearn import BaseEstimator
 
 
 def cross_validate(estimator: BaseEstimator, X: np.ndarray, y: np.ndarray,
-                   scoring: Callable[[np.ndarray, np.ndarray, ...], float], cv: int = 5) -> Tuple[float, float]:
+                   scoring: Callable[[np.ndarray, np.ndarray], float], cv: int = 5) -> Tuple[float, float]:
     """
     Evaluate metric by cross-validation for given estimator
 
@@ -37,4 +36,22 @@ def cross_validate(estimator: BaseEstimator, X: np.ndarray, y: np.ndarray,
     validation_score: float
         Average validation score over folds
     """
-    raise NotImplementedError()
+    train_score = np.zeros(cv)
+    test_score = np.zeros(cv)
+    X_folds = np.array_split(X, cv)
+    y_folds = np.array_split(y, cv)
+    for i in range(cv):
+        X_val = X_folds[i]
+        y_val = y_folds[i]
+        X_train = np.array([])
+        y_train = np.array([])
+        for j in range(cv):
+            if i != j:
+                X_train = np.append(X_train, X_folds[j])
+                y_train = np.append(y_train, y_folds[j])
+        estimator.fit(X_train, y_train)
+        y_pred_train = estimator.predict(X_train)
+        y_pred_val = estimator.predict(X_val)
+        train_score[i] = scoring(y_train, y_pred_train)
+        test_score[i] = scoring(y_val, y_pred_val)
+    return np.mean(train_score), np.mean(test_score)

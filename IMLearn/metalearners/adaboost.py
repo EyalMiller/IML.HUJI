@@ -66,7 +66,6 @@ class AdaBoost(BaseEstimator):
                 new_d = self.D_[i] * np.exp(-self.weights_[i] * y * y_pred)
                 self.D_[i + 1] = new_d / np.sum(new_d)
 
-
     def _predict(self, x):
         """
         Predict responses for given samples using fitted estimator
