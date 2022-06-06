@@ -53,12 +53,12 @@ def select_polynomial_degree(n_samples: int = 100, noise: float = 5):
 
     # Question 2 - Perform CV for polynomial fitting with degrees 0,1,...,10
     train_errors = np.zeros(11)
-    val_erros = np.zeros(11)
+    val_errors = np.zeros(11)
     for k in range(11):
         poly_model = PolynomialFitting(k)
-        train_errors[k], val_erros[k] = cross_validate(poly_model, x_train, y_train,
+        train_errors[k], val_errors[k] = cross_validate(poly_model, x_train, y_train,
                                                          mean_square_error)
-    plt.plot(range(11), train_errors, val_erros)
+    plt.plot(range(11), train_errors, val_errors)
     plt.xlabel("k")
     plt.ylabel("MSE")
     plt.title("Polynomial fitting error as a function of k")
@@ -66,7 +66,7 @@ def select_polynomial_degree(n_samples: int = 100, noise: float = 5):
     plt.show()
 
     # Question 3 - Using best value of k, fit a k-degree polynomial model and report test error
-    k_best = np.argmin(val_erros)
+    k_best = np.argmin(val_errors)
     print("K value that achieved the lowest validation error:", k_best)
     model_best = PolynomialFitting(k_best)
     model_best.fit(x_train, y_train)
@@ -106,11 +106,14 @@ def select_regularization_parameter(n_samples: int = 50, n_evaluations: int = 50
                                                         mean_square_error)
         train_err_lasso[i], val_errors_lasso[i] = cross_validate(lasso_reg, x_train, y_train,
                                                         mean_square_error)
-    plt.scatter(lam_arr, train_err_ridge)
-    plt.scatter(lam_arr, val_errors_ridge)
-    plt.scatter(lam_arr, train_err_lasso)
-    plt.scatter(lam_arr, val_errors_lasso)
+    plt.plot(lam_arr, train_err_ridge)
+    plt.plot(lam_arr, val_errors_ridge)
+    plt.plot(lam_arr, train_err_lasso)
+    plt.plot(lam_arr, val_errors_lasso)
     plt.legend(["ridge train", "ridge val", "lasso train", "lasso val"])
+    plt.xlabel("lambda")
+    plt.ylabel("MSE")
+    plt.title("MSE as a function of the regularization parameter")
     plt.show()
     # Question 8 - Compare best Ridge model, best Lasso model and Least Squares model
     opt_lam_ridge = lam_arr[np.argmin(val_errors_ridge)]
@@ -130,9 +133,7 @@ def select_regularization_parameter(n_samples: int = 50, n_evaluations: int = 50
 
 if __name__ == '__main__':
     np.random.seed(0)
-    # select_polynomial_degree()
-    """
+    select_polynomial_degree()
     select_polynomial_degree(noise=0)
     select_polynomial_degree(n_samples=1500, noise=10)
-    """
     select_regularization_parameter()
